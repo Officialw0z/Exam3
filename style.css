@@ -19,14 +19,14 @@ body {
 .main__header {
     display: block;
     font-size: 3rem;
-    width: 60%;
-    color: black;
+    width: 54%;
+    color: rgb(0, 0, 0);
     padding-bottom: 1%;
 }
 .main__wrapper {
     background-color: gray;
     display: flex;
-    width: 60%;
+    width: 54%;
     height: auto;
     flex-wrap: wrap;
     gap: 2%;
@@ -200,8 +200,7 @@ body {
     height: 100%;
     color: black;
     justify-content: center;
-    align-items: center;
-    
+    align-items: center; 
 }
 .book__view {
     display: flex;
@@ -243,7 +242,6 @@ body {
 .book__view--header {
     display: flex;
     width: 80%;
-    height: auto;
     align-items: flex-end;
     height: 90%;
     flex-wrap: wrap;
@@ -346,3 +344,25 @@ body {
 .book__view--right--button:hover {
     transform:scale(1.1);
 } 
+
+.input {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    gap: 1%;
+    margin-top: 2%;
+}
+
+.input__field {
+    display: flex;
+    width: 10%;
+    height: 20%;
+    color: black;
+}
+
+.input__field--button {
+    width: 5%;
+    height: 20%;
+    color: black;
+}

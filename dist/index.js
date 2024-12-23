@@ -8,6 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { element } from './interfaces.js';
+const inputField = document.querySelector('.input__field');
+const input = document.querySelector('.input');
 const fetchBooks = () => __awaiter(void 0, void 0, void 0, function* () {
     const url = 'https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books';
     try {
@@ -89,6 +91,8 @@ const updateBookView = (book) => {
         mainHeader.style.display = 'none';
         mainWrapper.style.display = 'none';
         bookWrapper.style.display = 'flex';
+        inputBtn.style.display = 'none';
+        input.style.display = 'none';
     }
     else {
         console.error("Ett eller fler av elementen kunde inte hittas.");
@@ -98,8 +102,10 @@ const backArrow = document.querySelector('.book__view--goback');
 backArrow.addEventListener('click', () => {
     window.location.href = 'index.html';
 });
+const inputBtn = document.querySelector('.input__field--button');
+let books;
 const initalize = () => __awaiter(void 0, void 0, void 0, function* () {
-    const books = yield fetchBooks();
+    books = yield fetchBooks();
     if (books) {
         clickBook(books);
     }
@@ -107,4 +113,25 @@ const initalize = () => __awaiter(void 0, void 0, void 0, function* () {
         console.error("error från eventlistener");
     }
 });
+inputBtn.addEventListener('click', () => {
+    if (books) {
+        searchBtnClick(books);
+    }
+    else {
+        console.error("Books är inte laddat än");
+    }
+});
 initalize();
+const searchBook = (books, searchKeyword) => {
+    return books.filter(book => book.title.toLowerCase().includes(searchKeyword.toLowerCase()));
+};
+const searchBtnClick = (books) => {
+    const searchKeyword = inputField.value;
+    const filteredBooks = searchBook(books, searchKeyword);
+    if (filteredBooks.length === 1) {
+        updateBookView(filteredBooks[0]);
+    }
+    else if (filteredBooks.length > 1) {
+        console.log('Ingen bok hittades');
+    }
+};

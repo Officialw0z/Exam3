@@ -1,5 +1,6 @@
 import { Book, element } from './interfaces.js'
-
+const inputField = document.querySelector('.input__field') as HTMLInputElement
+const input = document.querySelector('.input') as HTMLInputElement
 const fetchBooks = async (): Promise<Book[] | undefined> => {
     const url = 'https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books'
     try {
@@ -85,11 +86,14 @@ const updateBookView = (book: Book): void => {
     const mainWrapper = document.querySelector('.main__wrapper')
     const bookWrapper = document.querySelector('.book__wrapper')
 
+
     if (mainHeader instanceof HTMLElement && mainWrapper instanceof HTMLElement && bookWrapper instanceof HTMLElement) {
         
         mainHeader.style.display = 'none'
         mainWrapper.style.display = 'none'
-        bookWrapper.style.display = 'flex';
+        bookWrapper.style.display = 'flex'
+        inputBtn.style.display ='none'
+        input.style.display = 'none'
     } else {
         console.error("Ett eller fler av elementen kunde inte hittas.")
     }
@@ -98,12 +102,41 @@ const backArrow = document.querySelector('.book__view--goback') as HTMLElement
 backArrow.addEventListener('click', () => {
     window.location.href = 'index.html'})
 
+const inputBtn = document.querySelector('.input__field--button') as HTMLButtonElement
+let books: Book[] | undefined
+
 const initalize = async (): Promise<void> => {
-    const books = await fetchBooks()
+    books = await fetchBooks()
     if (books) {
     clickBook(books);
 } else {
     console.error("error från eventlistener")
 }
 }
+inputBtn.addEventListener('click', () => {
+    if (books) {
+    searchBtnClick(books)
+} else {
+    console.error("Books är inte laddat än")
+}
+})
 initalize()
+
+
+const searchBook = (books: Book[], searchKeyword: string): Book[] => {
+    return books.filter(book =>
+        book.title.toLowerCase().includes(searchKeyword.toLowerCase()) 
+    )
+}
+
+const searchBtnClick = (books: Book[]) => {
+    const searchKeyword = inputField.value 
+    const filteredBooks = searchBook(books, searchKeyword)
+    
+    if (filteredBooks.length === 1) {
+        updateBookView(filteredBooks[0])
+    } else if (filteredBooks.length > 1) {
+        console.log('Ingen bok hittades')
+    }
+}
+
